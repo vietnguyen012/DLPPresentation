@@ -1,6 +1,8 @@
 \documentclass{beamer}
 \usepackage{beamerthemesplit} % new 
 \usepackage{amsmath}
+\usepackage{graphicx}
+\graphicspath{ {./image/} }
 \begin{document}
 \title{Text-to-SQL Semantic Parsing} 
 \author{Group 4 \\ Nguyen Tan Viet \\ Ngo Quoc Bao}
@@ -182,13 +184,99 @@ overhead in decoding speed.
 
 
 
-\frame{\frametitle{experiment result}}
+\begin{frame}[t]{Experiment result}\vspace{10pt}
+\begin{block}{Dataset}
+\begin{enumerate}
+\item Spider: Train/dev/test databases not overlap, test set is hidden from public
+\item WikiSQL: 49.6\% of its dev tables and 45.1\% of its test tables are not found in the train set
+\item Both databases have the ability of models to generalize to unseen schema in train set
+\end{enumerate}
+\end{block}
+\end{frame}
 
-\frame{\frametitle{ablation study}}
+\begin{frame}[t]{Experiment result}\vspace{10pt}
+\begin{block}{Evaluation Metrics}
+\begin{enumerate}
+\item Exact Match (EM): Checks if the predicted SQL exactly matches the ground truth SQL
+\item Exact Set Match (E-SM): Structural correctness of the predicted SQL. Check orderless set match
+\item Execution Accuracy (EA): Execution results have the same result
+\end{enumerate}
+\end{block}
+\end{frame}
 
-\frame{\frametitle{error analysis}}
+\begin{frame}[t]{Experiment result}\vspace{10pt}
+\begin{block}{Implementation}
+\begin{enumerate}
+\item Anchor Text selection: Fuzzy matching \emph{k} from DB field picklist and exclude number due to not effectively discriminate between different fields. 
+\item Training: 
+\begin{itemize}
+\item Loss: cross-entropy
+\item Optimizer: Adam-SGD with mini-batch size of 32
+\item Model: BERT-large + 1-layer LSTMs + 8-head attention
+\end{itemize}
+\includegraphics{non-numeric}
+\end{enumerate}
+\end{block}
+\end{frame}
+
+\begin{frame}[t]{Experiment result}\vspace{10pt}
+\begin{block}{Result (Spider database, E-SM)}
+\begin{tabular}{ |l|c|c| }
+\hline
+ Model & Dev & Test \\
+\hline
+ Global-GNN (Bogin et al., 2019b) & 52.7 & 47.4 \\
+ EditSQL + BERT (Zhang et al., 2019) & 57.6 & 53.4 \\
+ GNN + Bertrand-DR (Kelkar et al., 2020) & 57.9 & 54.6 \\
+ IRNet + BERT (Guo et al., 2019) & 61.9 & 54.7 \\
+ RAT-SQL v2 (Wang et al., 2019) & 62.7 & 57.2 \\
+ RYANSQL + BERTL (Choi et al., 2020) & 66.6 & 58.2 \\
+ SmBoP + BART (Rubin and Berant, 2020) & 66.0 & 60.5 \\
+ RYANSQL v2 + BERTL & 70.6 & 60.6 \\
+ RAT-SQL v3 + BERTL (Wang et al., 2019) & 69.7 & 65.6 \\
+ BRIDGE v1 (Lin et al., 2020) & 65.5 & 59.2 \\
+ BRIDGE L (ours) & 70.0 & 65.0 \\
+ BRIDGE L (ours, ensemble) & 71.1 & 67.5 \\
+\hline
+\end{tabular}
+\end{block}
+\end{frame}
+
+\begin{frame}[t]{Error analysis}\vspace{10pt}
+\begin{block}{Evaluation}
+50 ramdom Spider dev set failed samples
+\includegraphics{error}
+\end{block}
+\end{frame}
+
+\begin{frame}[t]{Error analysis}\vspace{10pt}
+\begin{block}{Evaluation}
+4 common errors: Logical, Lexical Understanding, Commonsense, Robustness
+\includegraphics{error2}
+\end{block}
+\end{frame}
+
+\begin{frame}[t]{Application}\vspace{10pt}
+\begin{enumerate}
+\item Translation
+\item Question-answer like Siri, Alexa (integrate with speech-to-text)
+\item Smarthome Iot devices
+\item Extension to support user in Web 3.0 generation. Applying semantics in the Web would enable machines to decode meaning and emotions by analyzing data. Consequently, internet users will have a better experience driven by enhanced data connectivity.
+\end{enumerate}
+\end{frame}
 
 
-\frame{\frametitle{Demo}}
+\begin{frame}[t]{Demo}\vspace{10pt}
+\begin{block}{Question-Answer Website}
+Resources: 6 cores, 56GB RAM, 380GB storage - 1 x NVIDIA Tesla M60
+\includegraphics{demo}
+\end{block}
+\end{frame}
+
+\begin{frame}[t]{References}\vspace{10pt}
+\begin{enumerate}
+\item https://github.com/salesforce/TabularSemanticParsing
+\end{enumerate}
+\end{frame}
 
 \end{document}
