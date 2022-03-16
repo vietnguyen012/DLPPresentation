@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2022.2.25)  2 MAR 2022 15:33
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2022.2.25)  16 MAR 2022 14:19
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -853,41 +853,105 @@ thkerncmss.
 )
 [2
 
-] [3
+]
+<./image/2.png, id=78, 630.355pt x 730.73pt>
+File: ./image/2.png Graphic file (type png)
+<use ./image/2.png>
+Package pdftex.def Info: ./image/2.png  used on input line 26.
+(pdftex.def)             Requested size: 307.28961pt x 199.16179pt.
 
-] [4
+Overfull \vbox (17.10991pt too high) detected at line 26
+ []
 
-] [5
+[3
+
+ <./image/2.png>]
+<./image/3.png, id=107, 1607.00375pt x 710.655pt>
+File: ./image/3.png Graphic file (type png)
+<use ./image/3.png>
+Package pdftex.def Info: ./image/3.png  used on input line 34.
+(pdftex.def)             Requested size: 307.29556pt x 184.93944pt.
+
+Overfull \vbox (16.48756pt too high) detected at line 34
+ []
+
+[4
+
+ <./image/3.png>] [5
 
 ] [6
 
 ]
-<1.png, id=187, 1326.9575pt x 694.595pt>
-File: 1.png Graphic file (type png)
-<use 1.png>
-Package pdftex.def Info: 1.png  used on input line 65.
-(pdftex.def)             Requested size: 215.10196pt x 112.58948pt.
+<./image/4.png, id=188, 727.71875pt x 349.305pt>
+File: ./image/4.png Graphic file (type png)
+<use ./image/4.png>
+Package pdftex.def Info: ./image/4.png  used on input line 65.
+(pdftex.def)             Requested size: 307.2943pt x 184.94421pt.
 
-Overfull \vbox (14.31558pt too high) detected at line 65
+Overfull \vbox (25.10904pt too high) detected at line 65
  []
 
 [7
 
- <./1.png>]
-Overfull \vbox (0.27794pt too high) detected at line 85
+ <./image/4.png>]
+<./image/5.png, id=217, 611.28375pt x 268.00125pt>
+File: ./image/5.png Graphic file (type png)
+<use ./image/5.png>
+Package pdftex.def Info: ./image/5.png  used on input line 75.
+(pdftex.def)             Requested size: 307.28275pt x 184.9415pt.
+
+Overfull \vbox (13.00632pt too high) detected at line 75
  []
 
 [8
 
-] [9
+ <./image/5.png>]
+<./image/6.png, id=246, 1238.6275pt x 519.9425pt>
+File: ./image/6.png Graphic file (type png)
+<use ./image/6.png>
+Package pdftex.def Info: ./image/6.png  used on input line 84.
+(pdftex.def)             Requested size: 307.29362pt x 170.71678pt.
 
-] [10
+Overfull \vbox (12.3816pt too high) detected at line 84
+ []
+
+[9
+
+ <./image/6.png>] [10
 
 ] [11
 
 ] [12
 
 ] [13
+
+]
+<./image/1.png, id=385, 1326.9575pt x 694.595pt>
+File: ./image/1.png Graphic file (type png)
+<use ./image/1.png>
+Package pdftex.def Info: ./image/1.png  used on input line 140.
+(pdftex.def)             Requested size: 215.10196pt x 112.58948pt.
+
+Overfull \vbox (14.31558pt too high) detected at line 140
+ []
+
+[14
+
+ <./image/1.png>]
+Overfull \vbox (0.27794pt too high) detected at line 160
+ []
+
+[15
+
+] [16
+
+] [17
+
+] [18
+
+] [19
+
+] [20
 
 ]
 \tf@nav=\write6
@@ -899,19 +963,19 @@ Overfull \vbox (0.27794pt too high) detected at line 85
 \tf@snm=\write8
 \openout8 = `latex_code.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 119.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 119.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 194.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 194.
  (./latex_code.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 119.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 119.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 194.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 194.
 Package rerunfilecheck Info: File `latex_code.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 16965 strings out of 492982
- 323166 string characters out of 6134896
+ 17019 strings out of 492982
+ 323831 string characters out of 6134896
  395258 words of memory out of 5000000
- 20121 multiletter control sequences out of 15000+600000
+ 20155 multiletter control sequences out of 15000+600000
  11873 words of font info for 43 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  56i,15n,55p,812b,559s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -929,10 +993,10 @@ sfonts/cm/cmssi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts
 sy6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb
 ></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
 
-Output written on latex_code.pdf (13 pages, 301132 bytes).
+Output written on latex_code.pdf (20 pages, 690909 bytes).
 PDF statistics:
- 427 PDF objects out of 1000 (max. 8388607)
- 385 compressed objects within 4 object streams
- 27 named destinations out of 1000 (max. 500000)
- 48 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 626 PDF objects out of 1000 (max. 8388607)
+ 565 compressed objects within 6 object streams
+ 41 named destinations out of 1000 (max. 500000)
+ 73 words of extra memory for PDF output out of 10000 (max. 10000000)
 

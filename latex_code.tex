@@ -17,7 +17,82 @@ Given a natural language $Q$ and the schema $S = \langle \mathcal{T},\mathcal{C}
 \end{block}
 }
 
-\frame{\frametitle{Literal review}}
+\frame{\frametitle{Problem} 
+\begin{block}{Definition of problem: SQL Cross domain database}
+\begin{figure}
+   \includegraphics[width=\linewidth,height=7cm]{./image/2.png}
+\end{figure}
+\end{block}
+}
+
+
+\frame{\frametitle{Literal review}
+\begin{block}{Represent schema as Graph}
+\begin{figure}
+   \includegraphics[width=\linewidth,height=6.5cm]{./image/3.png}
+\end{figure}
+\end{block}}
+
+
+\frame{\frametitle{Literal review}
+\begin{block}{Represent schema as Graph}
+\vspace{0.5em}
+\begin{enumerate}
+\item Use decoder uses graph structue to guide decoding
+\item E.g: LSTM generates token by token when decoder generates token schema $\nu$, the subsequent generated tokens can be considered as $\tau(\nu)$.
+\item For example to generate SQL query SELECT FROM $student$ WHERE $student.lastname == "Nguyen"$. Decoder first generates SELECT FROM then the next token must be table name according to grammar rules.
+\end{enumerate}
+\vspace{0.5em}
+\end{block}}
+
+\frame{\frametitle{Literal review}
+\begin{block}{Represent problem as Seq2seq models for text2SQL}
+\vspace{0.5em}
+\begin{enumerate}
+\item Encoder encodes natural question,sequential schema and translates to SQL logical form.
+\item Shaw et al.(2020) showed T5 model with 3 billion parameters achieves state of the art on spider. 
+\end{enumerate}
+\vspace{0.5em}
+\end{block}}
+
+\frame{\frametitle{Literal review}
+\begin{block}{Use DB content}
+\vspace{0.5em}
+\begin{figure}
+   \includegraphics[width=\linewidth,height=6.5cm]{./image/4.png}
+\end{figure}
+\vspace{0.5em}
+\end{block}}
+
+
+\frame{\frametitle{Literal review}
+\begin{block}{Use DB content- RAT SQL}
+\vspace{0.5em}
+\begin{figure}
+   \includegraphics[width=\linewidth,height=6.5cm]{./image/5.png}
+\end{figure}
+\vspace{0.5em}
+\end{block}}
+
+\frame{\frametitle{Literal review}
+\begin{block}{Use DB content- RAT SQL}
+\vspace{0.5em}
+\begin{figure}
+   \includegraphics[width=\linewidth,height=6cm]{./image/6.png}
+\end{figure}
+\vspace{0.5em}
+\end{block}}
+
+\frame{\frametitle{Literal review}
+\begin{block}{Use DB content- RAT SQL}
+\begin{enumerate}
+\item RAT-SQL uses relational transformers to encode relations of tokens. \\ $e^{(h)}_{ij}=\frac{x_{i}W_{Q}^{(h)}(x_{j}W_{K}^{h}+r_{ij}^{K})^{T}}{\sqrt{d_{z}/H}}$ \\
+$z_{i}^{(h)}=\sum_{j=1}^n\alpha_{ij}^{(h)}(x_{j}W_{V}^{(h)}+r^{V}_{ij})$
+\item RAT-SQL performs schema-linking, name-based linking, value-based linking based on relation types above. 
+\item Encode schema and question is independent.
+\end{enumerate}
+\end{block}}
+
 
 \begin{frame}[t]{New point in research}\vspace{10pt}
 \begin{enumerate}
@@ -30,7 +105,7 @@ $\rightarrow$ protect individual data record and sensitive fields such as User I
 \begin{block}{Question-schema serialization and encoding}
 \vspace{0.5em}
 \begin{enumerate}
-\item $X = [CLS],Q,[SEP],[T],t_{1},[C],c_{11},...,c_{1|T_1|},$ \\hspace{24pt}$[T],t_{2},[C],c_{21},...,c_{N|T_N|},[SEP]$ \\
+\item $X = [CLS],Q,[SEP],[T],t_{1},[C],c_{11},...,c_{1|T_1|},$\\$[T],t_{2},[C],c_{21},...,c_{N|T_N|},[SEP]$ \\
 \item X is encoded with Bert
 \item Folowed by a directional LSTM $\textbf{h}_{X}\in\mathbb{R}^{|X|xn}$ 
 \item The question $\textbf{h}_{X}$ is passed through another bi-LSTM $\textbf{h}_{Q}\in\mathbb{R}^{|Q|xn}$ 
@@ -58,7 +133,7 @@ Meta-data features and base encoding are fused via a feed-forward layer $g(\math
 \vspace{0.5em}
 Anchor text, perform fuzzy matching between question $Q$ and the picklists of each field, if found the matched values in DB, the mathched field values are inserted in X, succeeding corresponding field name and seperated by token $[V]$.
 \begin{figure}
-   \includegraphics[width= 0.7\linewidth]{1.png}
+   \includegraphics[width= 0.7\linewidth]{./image/1.png}
 \end{figure}
 \vspace{0.5em}
 \end{block}
