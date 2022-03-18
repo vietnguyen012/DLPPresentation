@@ -10,11 +10,34 @@
 \date{\today} 
 \frame{\titlepage} 
 
+\frame{\frametitle{some NLP background}
+\begin{block}{Text processing}
+\vspace{0.5em}
+\begin{enumerate}
+\item Proccessing unit in text processing is token.
+\pause
+\item each token or group of tokens is a feature.
+\pause
+\item E.g we have a batch of 3 sentence and maximum sentence length is 10 then after featurizing with $hidden_dim=300$ we'll have a tensor of $(3,10,300)$.
+\end{enumerate}
+\vspace{0.5em}
+\end{block}}
+
+\frame{\frametitle{some NLP background}
+\begin{block}{Recurrnet formulas and Attention formulas}
+\vspace{0.5em}
+Recurrent formulas: $h_{t} = f_{W}(h_{t-1},x_{t})$. \\
+\pause
+Attention formulas: $Attention(Q,K,V) = softmax(\frac{QK^{T}}{\sqrt{d_{k}}})V$.
+\vspace{0.5em}
+\end{block}
+}
+
 
 \frame{\frametitle{Problem} 
 \begin{block}{Definition of problem}
 \vspace{0.5em}
-Given a natural language $Q$ and the schema $S = \langle \mathcal{T},\mathcal{C}\rangle$ for a relational database, the parser needs to generate the corresponding SQL query $Y$. The schema consists of tables $\mathcal{T} = \{t_1,..,t_N\}$ and fields $\mathcal{C} =\{c_{11},...,c_{1|T_1|},...,c_{n1},...,c_{N|T_N|} \}$.Each table $t_i$ and each field $c_{ij}$ has a textual name. Some fields are primary keys, used for uniquely indexing each data record, and some are foreign keys, used to reference a primary key in a different table. In addition, each field has a data type, $\tau\in\{number,text,time,boolean,etc\}$
+Given a natural language $Q$ and the schema $S = \langle \mathcal{T},\mathcal{C}\rangle$ for a relational database, the parser needs to generate the corresponding SQL query $Y$. The schema consists of tables $\mathcal{T} = \{t_1,..,t_N\}$ and fields $\mathcal{C} =\{c_{11},...,c_{1|T_1|},...,c_{n1},...,c_{N|T_N|} \}$.Each table $t_i$ and each field $c_{ij}$ has a textual name. Some fields are primary keys, used for uniquely indexing each data record, and some are foreign keys, used to reference a primary key in a different table. In addition, each field has a data type, $\tau\in\{number,text,time,boolean,etc\}$.
 \vspace{0.5em}
 \end{block}
 }
@@ -40,8 +63,10 @@ Given a natural language $Q$ and the schema $S = \langle \mathcal{T},\mathcal{C}
 \begin{block}{Represent schema as Graph}
 \vspace{0.5em}
 \begin{enumerate}
-\item Use decoder uses graph structue to guide decoding
+\item Use decoder uses graph structue to guide decoding.
+\pause
 \item E.g: LSTM generates token by token when decoder generates token schema $\nu$, the subsequent generated tokens can be considered as $\tau(\nu)$.
+\pause
 \item For example to generate SQL query SELECT FROM $student$ WHERE $student.lastname == "Nguyen"$. Decoder first generates SELECT FROM then the next token must be table name according to grammar rules.
 \end{enumerate}
 \vspace{0.5em}
@@ -52,6 +77,7 @@ Given a natural language $Q$ and the schema $S = \langle \mathcal{T},\mathcal{C}
 \vspace{0.5em}
 \begin{enumerate}
 \item Encoder encodes natural question,sequential schema and translates to SQL logical form.
+\pause
 \item Shaw et al.(2020) showed T5 model with 3 billion parameters achieves state of the art on spider. 
 \end{enumerate}
 \vspace{0.5em}
@@ -90,7 +116,9 @@ Given a natural language $Q$ and the schema $S = \langle \mathcal{T},\mathcal{C}
 \begin{enumerate}
 \item RAT-SQL uses relational transformers to encode relations of tokens. \\ $e^{(h)}_{ij}=\frac{x_{i}W_{Q}^{(h)}(x_{j}W_{K}^{h}+r_{ij}^{K})^{T}}{\sqrt{d_{z}/H}}$ \\
 $z_{i}^{(h)}=\sum_{j=1}^n\alpha_{ij}^{(h)}(x_{j}W_{V}^{(h)}+r^{V}_{ij})$
-\item RAT-SQL performs schema-linking, name-based linking, value-based linking based on relation types above. 
+\pause
+\item RAT-SQL performs schema-linking, name-based linking, value-based linking based on relation types above.
+\pause 
 \item Encode schema and question is independent.
 \end{enumerate}
 \end{block}}
@@ -100,6 +128,7 @@ $z_{i}^{(h)}=\sum_{j=1}^n\alpha_{ij}^{(h)}(x_{j}W_{V}^{(h)}+r^{V}_{ij})$
 \begin{enumerate}
 \item  Model has acess to value of each field called picklists (e.g $Property\_type\_code$ can have one of the following values $\{"Apartment","Field","House","Shop","Other"\}$ ) \\
 $\rightarrow$ protect individual data record and sensitive fields such as User IDs or credit numbers.
+\pause
 \item Use LSTM-based pointer generator with multihead-attention as decoder
 \end{enumerate}
 \end{frame} 
@@ -108,9 +137,13 @@ $\rightarrow$ protect individual data record and sensitive fields such as User I
 \vspace{0.5em}
 \begin{enumerate}
 \item $X = [CLS],Q,[SEP],[T],t_{1},[C],c_{11},...,c_{1|T_1|},$\\$[T],t_{2},[C],c_{21},...,c_{N|T_N|},[SEP]$ \\
+\pause
 \item X is encoded with Bert
-\item Folowed by a directional LSTM $\textbf{h}_{X}\in\mathbb{R}^{|X|xn}$ 
-\item The question $\textbf{h}_{X}$ is passed through another bi-LSTM $\textbf{h}_{Q}\in\mathbb{R}^{|Q|xn}$ 
+\pause
+\item Folowed by a directional LSTM $\textbf{h}_{X}\in\mathbb{R}^{|X|xn}$
+\pause 
+\item The question $\textbf{h}_{X}$ is passed through another bi-LSTM $\textbf{h}_{Q}\in\mathbb{R}^{|Q|xn}$
+\pause 
 \item Dense lookup features to represent meta-data of schema $f_{pri}\in\mathbb{R}^{2xn}$, $f_{for}\in\mathbb{R}^{2xn}$, $f_{type}\in\mathbb{R}^{|\tau|xn}$
 \vspace{0.5em}
 \end{enumerate}
@@ -123,7 +156,9 @@ $\rightarrow$ protect individual data record and sensitive fields such as User I
 Meta-data features and base encoding are fused via a feed-forward layer $g(\mathbb{R}^{4n}\rightarrow\mathbb{R}^{n})$:
 \begin{enumerate}
 \item $\textbf{h}^{t_{i}}_{S} = g([\textbf{h}^{p}_{X};\textbf{0};\textbf{0};\textbf{0}])$
+\pause
 \item $\textbf{h}^{c_{ij}}_{S} = g([\textbf{h}^{q}_{X};f^{u}_{pri},f^{v}_{for},f^{w}_{type}])$ \\ $=ReLU(\textbf{W}_{g}[\textbf{h}^{q}_{X};f^{u}_{pri},f^{v}_{for},f^{w}_{type}]+\textbf{b}_{g})$
+\pause
 \item $\textbf{h}_{S} = [\textbf{h}^{t_{1}},...,\textbf{h}^{t_{|\tau|}},\textbf{h}^{c_{11}},...,\textbf{h}^{c_{N|T_{N}|}}] \in \mathbb{R}^{|S|xn}$
 \vspace{0.5em}
 \end{enumerate}
@@ -150,12 +185,17 @@ each step, the decoder performs one of the follow-
 ing actions: generating a token from the vocabulary
 $V$, copying a token from the question $Q$ or copying
 a schema component from $S$.\\
+\pause
 Mathematically, at each step $t$, given the decoder
 state $s_{t}$ and the encoder representation $[h_{Q}; h_{S} ]\in
 \mathbb{R}^{(|Q|+|S|)xn}$\\\vspace{5pt}
+\pause
 $e_{tj}^{(h)} = \frac{s_{t}W^{(h)}_{U}(h_{j}W^{(h)}_{V})^\top}{\sqrt{n/H}};\space \alpha_{tj}^{(h)}=\underset{j}{softmax}\{e_{tj}^{(h)}\}$\\ \vspace{5pt}
+\pause
 $z_{t}^{(h)} = \sum^{|Q|+|S|}_{j=1}\alpha_{tj}^{(h)}(h_{j}W^{(h)}_{V});z_{t}=[z_{t}^{(1)},...,z_{t}^{(H)}]$\\\vspace{5pt}
+\pause
 $p^{t}_{gen}=sigmoid(s_{t}W^{s}_{gen}+z_{t}W^{z}_{gen}+b_{gen})$\\\vspace{5pt}
+\pause
 $p^{t}_{out} = p^{t}_{gen}P_{\mathcal{V}}(y_{t})+(1-p^{t}_{gen})\sum_{j: \overset{\sim}{X}_{j}=y_{t}}\alpha_{tj}^{(H)})$
 \vspace{0.5em}
 \end{block}
@@ -168,11 +208,13 @@ a simple pruning strategy for sequence
 decoders, based on the fact that the DB fields ap-
 peared in each SQL clause must only come from
 the tables in the FROM clause. \\
+\pause
 \textbf{Lemma 1} Let $Y_{exec}$ be a SQL query with clauses
 arranged in execution order, then any table field in
 $Y_{exec}$ must appear after the table.\\
 As a result, we adopt a binary attention mask $\xi$\\
 $\overset{\sim}{\alpha}_{t}^{(H)}=\alpha_{t}^{(H)} . \xi$\\
+\pause
 which initially has entries corresponding to all
 fields set to 0 Once a table $t_{i}$ is decoded, 
 all entries in $\xi$ corresponding to that table to 1, allows the decoder to only search in the space
@@ -208,10 +250,13 @@ overhead in decoding speed.
 \begin{block}{Implementation}
 \begin{enumerate}
 \item Anchor Text selection: Fuzzy matching \emph{k} from DB field picklist and exclude number due to not effectively discriminate between different fields. 
+\pause
 \item Training: 
 \begin{itemize}
 \item Loss: cross-entropy
+\pause
 \item Optimizer: Adam-SGD with mini-batch size of 32
+\pause
 \item Model: BERT-large + 1-layer LSTMs + 8-head attention
 \end{itemize}
 \includegraphics{non-numeric}
@@ -259,8 +304,11 @@ overhead in decoding speed.
 \begin{frame}[t]{Application}\vspace{10pt}
 \begin{enumerate}
 \item Translation
+\pause
 \item Question-answer like Siri, Alexa (integrate with speech-to-text)
+\pause
 \item Smarthome Iot devices
+\pause
 \item Extension to support user in Web 3.0 generation. Applying semantics in the Web would enable machines to decode meaning and emotions by analyzing data. Consequently, internet users will have a better experience driven by enhanced data connectivity.
 \end{enumerate}
 \end{frame}
@@ -274,9 +322,13 @@ Resources: 6 cores, 56GB RAM, 380GB storage - 1 x NVIDIA Tesla M60
 \end{frame}
 
 \begin{frame}[t]{References}\vspace{10pt}
-\begin{enumerate}
-\item https://github.com/salesforce/TabularSemanticParsing
-\end{enumerate}
+\vspace{0.6em}
+\only<1>{1. https://github.com/salesforce/TabularSemanticParsing \\
+2. arXiv:1706.03762 \\
+3. Xi Victoria Lin, Richard Socher, and Caiming Xiong. 2020. Bridging Textual and Tabular Data for Cross-Domain Text-to-SQL Semantic Parsing. In Findings of the Association for Computational Linguistics: EMNLP 2020, pages 4870–4888, Online. Association for Computational Linguistics.\\
+4. Bailin Wang, Richard Shin, Xiaodong Liu, Oleksandr Polozov, and Matthew Richardson. 2020. RAT-SQL: Relation-Aware Schema Encoding and Linking for Text-to-SQL Parsers. In Proceedings of the 58th Annual Meeting of the Association for Computational Linguistics, pages 7567–7578, Online. Association for Computational Linguistics.}
+\only<2>{5. https://www.microsoft.com/en-us/research/uploads/prod/2018/07/Execution-Guided-Neural-Program-Decoding.pdf}
+\vspace{0.5em}
 \end{frame}
 
 \end{document}
