@@ -1,6 +1,7 @@
 \documentclass[10pt,a4paper]{article}
 \usepackage{graphicx}
 \usepackage{amsmath}
+\graphicspath{ {./image/} }
 \begin{document}
 \begin{titlepage}
 \begin{center}
@@ -96,6 +97,40 @@ fields set to 0 Once a table $t_{i}$ is decoded,
 all entries in $\xi$ corresponding to that table to 1, allows the decoder to only search in the space
 specified by the condition in Lemma 1 with little
 overhead in decoding speed.
+\section{Experiment result}
+Train/dev/test databases from spider dataset not overlap, test set is hidden from public
+In WikiSQL, 49.6\% of its dev tables and 45.1\% of its test tables are not found in the train set. Both databases have the ability of models to generalize to unseen schema in train set.\\\\
+\textbf{Exact Match (EM)}: Checks if the predicted SQL exactly matches the ground truth SQL.\\
+\textbf{Exact Set Match (E-SM)}: Structural correctness of the predicted SQL. Check orderless set match.\\
+\textbf{Execution Accuracy (EA)}: Execution results have the same result.\\\\
+\textbf{Anchor Text selection}: Fuzzy matching \emph{k} from DB field picklist and exclude number due to not effectively discriminate between different fields. \\
+Training use cross-entropy Loss and Adam-SGD optimizer with mini-batch size of 32 and
+for model, it uses BERT-large + 1-layer LSTMs + 8-head attention
+
+\includegraphics[scale=1.5]{non-numeric}
+
+\begin{tabular}{ |l|c|c| }
+\hline
+  Model & Dev & Test \\
+\hline
+  Global-GNN (Bogin et al., 2019b) & 52.7 & 47.4 \\
+  EditSQL + BERT (Zhang et al., 2019) & 57.6 & 53.4 \\
+  GNN + Bertrand-DR (Kelkar et al., 2020) & 57.9 & 54.6 \\
+  IRNet + BERT (Guo et al., 2019) & 61.9 & 54.7 \\
+  RAT-SQL v2 (Wang et al., 2019) & 62.7 & 57.2 \\
+  RYANSQL + BERTL (Choi et al., 2020) & 66.6 & 58.2 \\
+  SmBoP + BART (Rubin and Berant, 2020) & 66.0 & 60.5 \\
+  RYANSQL v2 + BERTL & 70.6 & 60.6 \\
+  RAT-SQL v3 + BERTL (Wang et al., 2019) & 69.7 & 65.6 \\
+  BRIDGE v1 (Lin et al., 2020) & 65.5 & 59.2 \\
+  BRIDGE L (ours) & 70.0 & 65.0 \\
+  BRIDGE L (ours, ensemble) & 71.1 & 67.5 \\
+\hline
+\end{tabular}
+\section{Error analysis}
+50 ramdom Spider dev set failed samples. There are 4 common errors: Logical, Lexical Understanding, Commonsense, Robustness.\\\\
+\includegraphics[scale=1.2]{error}\\
+\includegraphics[scale=1.2]{error2}
 \section{References}
 1. https://github.com/salesforce/TabularSemanticParsing \\
 2. arXiv:1706.03762 \\
